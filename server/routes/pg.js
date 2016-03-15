@@ -70,6 +70,35 @@ router.post('/people',function(request,response){
  });
 
 
+router.delete('/people',function(request,response){
+ var id = request.body.person;
+
+    pg.connect(connectionString,function(err,client,done){
+        if(err){
+            done();
+            console.log("error connecting to database",err);
+            response.status(500).send(err);
+        } else{
+            var results = [];
+            var query = client.query("DELETE FROM people WHERE id = $1 RETURNING id, name, address, city, state, zip_code ",[id]);
+             }
+             query.on('row',function(row){
+                 console.log(row);
+                 results.push(row);
+             });
+             query.on('end',function(){
+                 done();
+                response.send(results);
+             });
+             query.on('error',function(error){
+                 console.log('Error returning query', error);
+                 done();
+                 response.status(500).send(error);
+             });
+    });
+ });
+
+
 
 
 

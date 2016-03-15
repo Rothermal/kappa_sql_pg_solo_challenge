@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 app.post('/people',pgRouter);
 app.get('/people',pgRouter);
+app.delete('/people',pgRouter);
 
 app.use('/',index);
 

@@ -60,6 +60,7 @@ function appendDom(peopleArray){
     for(var i = 0; i < peopleArray.length; i ++) {
         $('.people').append('<div class="container well"></div>');
         $el = $('.people').children().last();
+        $el.data('id',peopleArray[i].id);
         $el.append('<p>Name : ' + peopleArray[i].name + '</p>');
         $el.append('<p>Address : ' + peopleArray[i].address + '</p>');
         $el.append('<p>City : ' + peopleArray[i].city + '</p>');
@@ -72,6 +73,16 @@ function appendDom(peopleArray){
 
 function removePerson(){
     console.log('clicked');
-    console.log($(this));
+    id = $(this).parent().data('id');
     $(this).parent().remove();
+    $.ajax({
+        type:"DELETE",
+        url:"/people",
+        data: {
+            person:id
+        },
+        success:function (response){
+       console.log(response);
+        }
+    });
 }
