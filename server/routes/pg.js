@@ -7,9 +7,39 @@ var path = require('path');
 var pg = require('pg');
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/kappa_notes_data';
 
+if(connectionString = process.env.DATABASE_URL) {
+    pg.defaults.ssl = true;
+}
+
+
+pg.connect(connectionString,function(err,client,done){
+    if(err){
+        done();
+        console.log("error connecting to database",err);
+        response.status(500).send(err);
+    } else {
+   var query = client.query('CREATE TABLE IF NOT EXISTS people (id SERIAL PRIMARY KEY ,name varchar(80),address varchar(120),city varchar(80),state varchar(3),zip_code varchar(5) );');
+
+        query.on('end',function() {
+            done();
+            console.log('successfully created table');
+        });
+        query.on('error',function(error){
+            console.log('Error returning query', error);
+            done();
+            //response.status(500).send(error);
+        });
+
+
+    }
+
+});
+
+
+
+
 router.get('/people',function(request,response){
-    //var name = request.body.name;
-    //var address = request.body.address;
+
 
     pg.connect(connectionString,function(err,client,done){
         if(err){
