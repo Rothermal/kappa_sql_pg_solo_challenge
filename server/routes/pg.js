@@ -16,7 +16,6 @@ pg.connect(connectionString,function(err,client,done){
     if(err){
         done();
         console.log("error connecting to database",err);
-        response.status(500).send(err);
     } else {
    var query = client.query('CREATE TABLE IF NOT EXISTS people (id SERIAL PRIMARY KEY ,name varchar(80),address varchar(120),city varchar(80),state varchar(3),zip_code varchar(5) );');
 
@@ -27,7 +26,6 @@ pg.connect(connectionString,function(err,client,done){
         query.on('error',function(error){
             console.log('Error returning query', error);
             done();
-            //response.status(500).send(error);
         });
 
 
