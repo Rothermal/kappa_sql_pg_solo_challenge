@@ -72,7 +72,7 @@ function appendDom(peopleArray){
 }
 
 function removePerson(){
-    console.log('clicked');
+    console.log('clicked delete');
     id = $(this).parent().data('id');
     $(this).parent().remove();
     $.ajax({
